@@ -159,16 +159,6 @@
     </profiles>
 
     <dependencies>
-        <!--<dependency>-->
-            <!--<groupId>commons-beanutils</groupId>-->
-            <!--<artifactId>commons-beanutils</artifactId>-->
-            <!--<version>1.9.2</version>-->
-        <!--</dependency>-->
-        <!--<dependency>-->
-            <!--<groupId>commons-collections</groupId>-->
-            <!--<artifactId>commons-collections</artifactId>-->
-            <!--<version>3.2.1</version>-->
-        <!--</dependency>-->
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-digester3</artifactId>
@@ -196,18 +186,6 @@
             <version>4.12</version>
             <scope>test</scope>
         </dependency>
-        <!--<dependency>-->
-            <!--<groupId>org.mockito</groupId>-->
-            <!--<artifactId>mockito-all</artifactId>-->
-            <!--<version>2.0.2-beta</version>-->
-            <!--<scope>test</scope>-->
-        <!--</dependency>-->
-        <!--<dependency>-->
-            <!--<groupId>hsqldb</groupId>-->
-            <!--<artifactId>hsqldb</artifactId>-->
-            <!--<version>1.8.0.10</version>-->
-            <!--<scope>test</scope>-->
-        <!--</dependency>-->
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
@@ -229,12 +207,6 @@
             <version>${spockVersion}</version>
             <scope>test</scope>
         </dependency>
-        <!--<dependency>-->
-            <!--<groupId>cglib</groupId>-->
-            <!--<artifactId>cglib-nodep</artifactId>-->
-            <!--<version>3.1</version>-->
-            <!--<scope>test</scope>-->
-        <!--</dependency>-->
     </dependencies>
 
     <distributionManagement>
