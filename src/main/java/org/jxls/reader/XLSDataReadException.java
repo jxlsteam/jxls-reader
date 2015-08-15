@@ -17,7 +17,6 @@ public class XLSDataReadException extends RuntimeException{
         super(message);
     }
 
-
     public XLSDataReadException(String cellName, String message, Throwable cause) {
         super(message, cause);
         this.cellName = cellName;
@@ -25,6 +24,12 @@ public class XLSDataReadException extends RuntimeException{
 
     public XLSDataReadException(String cellName, String message, XLSReadStatus status) {
         super(message);
+        this.cellName = cellName;
+        this.readStatus = status;
+    }
+
+    public XLSDataReadException(String cellName, String message, XLSReadStatus status, Throwable cause) {
+        super(message, cause);
         this.cellName = cellName;
         this.readStatus = status;
     }
@@ -42,6 +47,11 @@ public class XLSDataReadException extends RuntimeException{
 
     public XLSDataReadException(String message, XLSReadStatus readStatus) {
         super(message);
+        this.readStatus = readStatus;
+    }
+
+    public XLSDataReadException(String message, XLSReadStatus readStatus, Throwable cause) {
+        super(message, cause);
         this.readStatus = readStatus;
     }
 

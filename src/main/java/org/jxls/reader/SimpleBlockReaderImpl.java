@@ -58,7 +58,7 @@ public class SimpleBlockReaderImpl extends BaseBlockReader implements SimpleBloc
                     }
                 } else {
                     readStatus.setStatusOK(false);
-                    throw new XLSDataReadException(getCellName(mapping, rowShift), "Can't read cell " + getCellName(mapping, rowShift) + " on " + cursor.getSheetName() + " spreadsheet", readStatus);
+                    throw new XLSDataReadException(getCellName(mapping, rowShift), "Can't read cell " + getCellName(mapping, rowShift) + " on " + cursor.getSheetName() + " spreadsheet", readStatus, e);
                 }
             }
         }
