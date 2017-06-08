@@ -1,9 +1,11 @@
 package org.jxls.reader;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.beanutils.ConvertUtilsBean;
 import org.apache.poi.ss.usermodel.Sheet;
 
 /**
@@ -17,6 +19,7 @@ public class XLSSheetReaderImpl implements XLSSheetReader {
 
     XLSReadStatus readStatus = new XLSReadStatus();
 
+    ConvertUtilsBeanProviderDelegate convertUtilsBeanProvider = new ConvertUtilsBeanProviderDelegate();
 
     public XLSReadStatus read(Sheet sheet, Map beans) {
         readStatus.clear();
@@ -33,6 +36,10 @@ public class XLSSheetReaderImpl implements XLSSheetReader {
         Sheet sheetAtIdx = sheet.getWorkbook().getSheetAt(idx);
         return sheetAtIdx.getSheetName();
     }
+    
+    public void setConvertUtilsBeanProvider( ConvertUtilsBeanProvider provider ){
+    	this.convertUtilsBeanProvider.setDelegate( provider ) ;
+    }
 
     public List getBlockReaders() {
         return blockReaders;
@@ -40,9 +47,14 @@ public class XLSSheetReaderImpl implements XLSSheetReader {
 
     public void setBlockReaders(List blockReaders) {
         this.blockReaders = blockReaders;
+        Iterator it = this.blockReaders.iterator();
+        while( it.hasNext() ){
+        	((XLSBlockReader)it.next()).setConvertUtilsBeanProvider( convertUtilsBeanProvider );
+        }
     }
 
     public void addBlockReader(XLSBlockReader blockReader) {
+    	blockReader.setConvertUtilsBeanProvider( convertUtilsBeanProvider );
         blockReaders.add( blockReader );
     }
 

@@ -72,7 +72,7 @@ public class XLSBlockReaderTest extends TestCase {
         beans.clear();
         beans.put("total", dynaBean);
         reader.setStartRow(8);
-        mappings.add( new BeanCellMapping(9, (short) 3, "total", "totalPayment"));
+        ((SimpleBlockReaderImpl)reader).addMapping( new BeanCellMapping(9, (short) 3, "total", "totalPayment") );
         cursor.setCurrentRowNum( 12 );
         reader.read( cursor, beans );
         assertEquals( new Integer(10100).toString(), dynaBean.get( "totalPayment" ));
