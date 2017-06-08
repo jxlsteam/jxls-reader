@@ -5,6 +5,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.beanutils.ConvertUtilsBean;
 import org.apache.commons.jexl2.JexlContext;
 import org.apache.commons.jexl2.MapContext;
 import org.apache.commons.logging.Log;
@@ -23,6 +24,8 @@ public class XLSForEachBlockReaderImpl extends BaseBlockReader implements XLSLoo
 
     SectionCheck loopBreakCheck;
 
+    ConvertUtilsBeanProviderDelegate convertUtilsProvider = new ConvertUtilsBeanProviderDelegate();
+    
     public XLSForEachBlockReaderImpl() {
     }
 
@@ -47,6 +50,11 @@ public class XLSForEachBlockReaderImpl extends BaseBlockReader implements XLSLoo
         return readStatus;
 
     }
+    
+    @Override
+	public void setConvertUtilsBeanProvider(ConvertUtilsBeanProvider provider) {
+		this.convertUtilsProvider.setDelegate(  provider );
+	}
 
     private void createNewCollectionItem(Collection itemsCollection, Map beans) {
         Object obj = null;
@@ -77,6 +85,7 @@ public class XLSForEachBlockReaderImpl extends BaseBlockReader implements XLSLoo
 
     public void addBlockReader(XLSBlockReader reader) {
         innerBlockReaders.add(reader);
+        reader.setConvertUtilsBeanProvider( convertUtilsProvider );
     }
 
     public List getBlockReaders() {
@@ -114,5 +123,7 @@ public class XLSForEachBlockReaderImpl extends BaseBlockReader implements XLSLoo
     public Class getVarType() {
         return varType;
     }
+
+	
 
 }

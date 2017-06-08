@@ -17,4 +17,6 @@ public interface XLSBlockReader {
 
     void setEndRow(int endRow);
 
+	void setConvertUtilsBeanProvider(ConvertUtilsBeanProvider convertUtilsBeanProvider);
+
 }

@@ -33,7 +33,7 @@ public class ReaderBuilderTest extends TestCase {
         XLSBlockReader blockReader = (XLSBlockReader) sheetReader1.getBlockReaders().get(0);
         assertTrue( blockReader instanceof SimpleBlockReader);
         SimpleBlockReader blockReader1 = (SimpleBlockReader) blockReader;
-        assertEquals( 5, blockReader1.getMappings().size() );
+        assertEquals( 6, blockReader1.getMappings().size() );
         BeanCellMapping mapping1 = (BeanCellMapping) blockReader1.getMappings().get(0);
         assertEquals( "department.name", mapping1.getFullPropertyName() );
         assertEquals( "B1", mapping1.getCellName() );

@@ -28,4 +28,6 @@ public interface XLSSheetReader {
     int getSheetIdx();
     void setSheetIdx(int idx);
 
+	void setConvertUtilsBeanProvider(ConvertUtilsBeanProvider convertUtilsBean);
+
 }

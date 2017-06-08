@@ -1,5 +1,6 @@
 package org.jxls.reader;
 
+import org.apache.commons.beanutils.ConvertUtilsBean;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.poi.ss.usermodel.Cell;
@@ -25,18 +26,29 @@ public class SimpleBlockReaderImpl extends BaseBlockReader implements SimpleBloc
         ReaderConfig.getInstance();
     }
 
+    ConvertUtilsBeanProviderDelegate convertUtilsProvider = new ConvertUtilsBeanProviderDelegate();
+    
     public SimpleBlockReaderImpl() {
     }
 
     public SimpleBlockReaderImpl(int startRow, int endRow, List beanCellMappings) {
         this.startRow = startRow;
         this.endRow = endRow;
-        this.beanCellMappings = beanCellMappings;
+        // Avoid change internal behaviour by changing external list.
+        // this change has required changing tests
+        this.beanCellMappings = new ArrayList( beanCellMappings );
+        for( int i = 0; i< this.beanCellMappings.size(); i++){
+        	((BeanCellMapping)this.beanCellMappings.get( i )).setConvertUtilsProvider( convertUtilsProvider ); 
+        }
     }
 
     public SimpleBlockReaderImpl(int startRow, int endRow) {
         this.startRow = startRow;
         this.endRow = endRow;
+    }
+    
+    public void setConvertUtilsBeanProvider( ConvertUtilsBeanProvider provider ){
+    	this.convertUtilsProvider.setDelegate( provider );
     }
 
     public XLSReadStatus read(XLSRowCursor cursor, Map beans) {
@@ -137,6 +149,7 @@ public class SimpleBlockReaderImpl extends BaseBlockReader implements SimpleBloc
     }
 
     public void addMapping(BeanCellMapping mapping) {
+        mapping.setConvertUtilsProvider( convertUtilsProvider );
         beanCellMappings.add(mapping);
     }
 

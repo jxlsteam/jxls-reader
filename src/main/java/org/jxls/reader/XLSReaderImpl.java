@@ -5,6 +5,7 @@ import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.apache.commons.beanutils.ConvertUtilsBean;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
@@ -26,7 +27,12 @@ public class XLSReaderImpl implements XLSReader{
 
     XLSReadStatus readStatus = new XLSReadStatus();
 
+    ConvertUtilsBean convertUtilsBean = ReaderConfig.createConvertUtilsBean( ReaderConfig.getInstance().isUseDefaultValuesForPrimitiveTypes() );
 
+    public ConvertUtilsBeanProvider getConvertUtilsBeanProvider(){
+    	return new ConvertUtilsBeanProviderDelegate( convertUtilsBean );
+    }
+    
     public XLSReadStatus read(InputStream inputXLS, Map beans) throws IOException, InvalidFormatException{
         readStatus.clear();
         Workbook workbook = WorkbookFactory.create(inputXLS);
@@ -73,10 +79,12 @@ public class XLSReaderImpl implements XLSReader{
 
     public void addSheetReader(String sheetName, XLSSheetReader reader){
         sheetReaders.put(sheetName, reader);
+        reader.setConvertUtilsBeanProvider( getConvertUtilsBeanProvider() );
     }
 
     public void addSheetReader(Integer idx, XLSSheetReader reader){
         sheetReadersByIdx.put(idx, reader);
+        reader.setConvertUtilsBeanProvider( getConvertUtilsBeanProvider() );
     }
 
     public void addSheetReader(XLSSheetReader reader){

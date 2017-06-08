@@ -3,7 +3,7 @@ package org.jxls.reader;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Map;
 
-import org.apache.commons.beanutils.ConvertUtils;
+import org.apache.commons.beanutils.ConvertUtilsBean;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.poi.ss.util.CellReference;
 import org.slf4j.Logger;
@@ -22,6 +22,8 @@ public class BeanCellMapping {
     String cell;
     String type = null;
     boolean nullAllowed = false;
+    
+    private ConvertUtilsBeanProviderDelegate convertUtilsBeanProvider = new ConvertUtilsBeanProviderDelegate();
 
     static {
         ReaderConfig.getInstance();
@@ -56,6 +58,9 @@ public class BeanCellMapping {
     public BeanCellMapping() {
     }
 
+    protected void setConvertUtilsProvider( ConvertUtilsBeanProvider convertUtilsBeanProvider ){
+    	this.convertUtilsBeanProvider.setDelegate(convertUtilsBeanProvider);
+    }
 
     public String getBeanKey() {
         return beanKey;
@@ -158,7 +163,7 @@ public class BeanCellMapping {
 
             Object value = null;
             if (!(nullAllowed && dataString == null)) { // set only if null is not allowed!
-                value = ConvertUtils.convert(dataString, dataType);
+                value = convertUtilsBeanProvider.getConvertUtilsBean().convert(dataString, dataType);
             }
 
             PropertyUtils.setProperty(bean, propertyName, value);
