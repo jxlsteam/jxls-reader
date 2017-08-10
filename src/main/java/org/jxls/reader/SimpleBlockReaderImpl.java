@@ -54,7 +54,7 @@ public class SimpleBlockReaderImpl extends BaseBlockReader implements SimpleBloc
     public XLSReadStatus read(XLSRowCursor cursor, Map beans) {
         readStatus.clear();
         final int currentRowNum = cursor.getCurrentRowNum();
-        final int rowShift = currentRowNum - startRow;
+        final int rowShift = startRow > currentRowNum ?   startRow : currentRowNum - startRow;        		 
         BeanCellMapping mapping;
         for (Iterator iterator = beanCellMappings.iterator(); iterator.hasNext();) {
             mapping = (BeanCellMapping) iterator.next();
