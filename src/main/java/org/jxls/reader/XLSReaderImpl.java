@@ -39,6 +39,7 @@ public class XLSReaderImpl implements XLSReader{
         for(int sheetNo = 0; sheetNo < workbook.getNumberOfSheets(); sheetNo++){
             readStatus.mergeReadStatus(readSheet(workbook, sheetNo, beans));
         }
+        workbook.close();
         return readStatus;
     }
 
