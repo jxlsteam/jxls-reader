@@ -47,9 +47,13 @@ public class ReaderBuilderTest extends TestCase {
     }
 
     public void testBuildFromXML2() throws IOException, SAXException, InvalidFormatException {
-        InputStream inputXML = new BufferedInputStream(getClass().getResourceAsStream(xmlConfig));
-        XLSReader mainReader = ReaderBuilder.buildFromXML( inputXML );
-        InputStream inputXLS = new BufferedInputStream(getClass().getResourceAsStream(dataXLS));
+        buildAndValidate(xmlConfig, dataXLS);
+    }
+
+    private void buildAndValidate(String xmlConfigParam, String dataXLSParam) throws IOException, SAXException, InvalidFormatException {
+        InputStream inputXML = new BufferedInputStream(getClass().getResourceAsStream(xmlConfigParam));
+        XLSReader mainReader = ReaderBuilder.buildFromXML(inputXML);
+        InputStream inputXLS = new BufferedInputStream(getClass().getResourceAsStream(dataXLSParam));
         Department department = new Department();
         Department hrDepartment = new Department();
         List departments = new ArrayList();
@@ -57,75 +61,38 @@ public class ReaderBuilderTest extends TestCase {
         beans.put("department", department);
         beans.put("hrDepartment", hrDepartment);
         beans.put("departments", departments);
-        mainReader.read( inputXLS, beans);
+        mainReader.read(inputXLS, beans);
         inputXLS.close();
         // check sheet1 data
-        assertEquals( "IT", department.getName() );
-        assertEquals( "Maxim", department.getChief().getName() );
-        assertEquals( new Integer(30), department.getChief().getAge() );
-        assertEquals(3000.0, department.getChief().getPayment() );
-        assertEquals(0.25, department.getChief().getBonus() );
-        assertEquals( 4, department.getStaff().size() );
+        assertEquals("IT", department.getName());
+        assertEquals("Maxim", department.getChief().getName());
+        assertEquals(new Integer(30), department.getChief().getAge());
+        assertEquals(3000.0, department.getChief().getPayment());
+        assertEquals(0.25, department.getChief().getBonus());
+        assertEquals(4, department.getStaff().size());
         Employee employee = (Employee) department.getStaff().get(0);
-        checkEmployee( employee, "Oleg", 32, 2000.0, 0.20);
+        checkEmployee(employee, "Oleg", 32, 2000.0, 0.20);
         employee = (Employee) department.getStaff().get(1);
-        checkEmployee( employee, "Yuri", 29, 1800.0, 0.15);
+        checkEmployee(employee, "Yuri", 29, 1800.0, 0.15);
         employee = (Employee) department.getStaff().get(2);
-        checkEmployee( employee, "Leonid", 30, 1700.0, 0.20);
+        checkEmployee(employee, "Leonid", 30, 1700.0, 0.20);
         employee = (Employee) department.getStaff().get(3);
-        checkEmployee( employee, "Alex", 28, 1600.0, 0.20);
+        checkEmployee(employee, "Alex", 28, 1600.0, 0.20);
         // check sheet2 data
-        checkEmployee( hrDepartment.getChief(), "Betsy", 37, 2200.0, 0.3);
-        assertEquals(4, hrDepartment.getStaff().size() );
+        checkEmployee(hrDepartment.getChief(), "Betsy", 37, 2200.0, 0.3);
+        assertEquals(4, hrDepartment.getStaff().size());
         employee = (Employee) hrDepartment.getStaff().get(0);
-        checkEmployee( employee, "Olga", 26, 1400.0, 0.20);
+        checkEmployee(employee, "Olga", 26, 1400.0, 0.20);
         employee = (Employee) hrDepartment.getStaff().get(1);
-        checkEmployee( employee, "Helen", 30, 2100.0, 0.10);
+        checkEmployee(employee, "Helen", 30, 2100.0, 0.10);
         employee = (Employee) hrDepartment.getStaff().get(2);
-        checkEmployee( employee, "Keith", 24, 1800.0, 0.15);
+        checkEmployee(employee, "Keith", 24, 1800.0, 0.15);
         employee = (Employee) hrDepartment.getStaff().get(3);
-        checkEmployee( employee, "Cat", 34, 1900.0, 0.15);
+        checkEmployee(employee, "Cat", 34, 1900.0, 0.15);
     }
 
     public void testBuildFromXMLBySheetIndex() throws IOException, SAXException, InvalidFormatException {
-        InputStream inputXML = new BufferedInputStream(getClass().getResourceAsStream(xmlConfig2));
-        XLSReader mainReader = ReaderBuilder.buildFromXML( inputXML );
-        InputStream inputXLS = new BufferedInputStream(getClass().getResourceAsStream(dataXLS));
-        Department department = new Department();
-        Department hrDepartment = new Department();
-        List departments = new ArrayList();
-        Map<String, Object> beans = new HashMap<String, Object>();
-        beans.put("department", department);
-        beans.put("hrDepartment", hrDepartment);
-        beans.put("departments", departments);
-        mainReader.read( inputXLS, beans);
-        inputXLS.close();
-        // check sheet1 data
-        assertEquals( "IT", department.getName() );
-        assertEquals( "Maxim", department.getChief().getName() );
-        assertEquals( new Integer(30), department.getChief().getAge() );
-        assertEquals(3000.0, department.getChief().getPayment() );
-        assertEquals(0.25, department.getChief().getBonus() );
-        assertEquals( 4, department.getStaff().size() );
-        Employee employee = (Employee) department.getStaff().get(0);
-        checkEmployee( employee, "Oleg", 32, 2000.0, 0.20);
-        employee = (Employee) department.getStaff().get(1);
-        checkEmployee( employee, "Yuri", 29, 1800.0, 0.15);
-        employee = (Employee) department.getStaff().get(2);
-        checkEmployee( employee, "Leonid", 30, 1700.0, 0.20);
-        employee = (Employee) department.getStaff().get(3);
-        checkEmployee( employee, "Alex", 28, 1600.0, 0.20);
-        // check sheet2 data
-        checkEmployee( hrDepartment.getChief(), "Betsy", 37, 2200.0, 0.3);
-        assertEquals(4, hrDepartment.getStaff().size() );
-        employee = (Employee) hrDepartment.getStaff().get(0);
-        checkEmployee( employee, "Olga", 26, 1400.0, 0.20);
-        employee = (Employee) hrDepartment.getStaff().get(1);
-        checkEmployee( employee, "Helen", 30, 2100.0, 0.10);
-        employee = (Employee) hrDepartment.getStaff().get(2);
-        checkEmployee( employee, "Keith", 24, 1800.0, 0.15);
-        employee = (Employee) hrDepartment.getStaff().get(3);
-        checkEmployee( employee, "Cat", 34, 1900.0, 0.15);
+        buildAndValidate(xmlConfig2, dataXLS);
     }
 
     private void checkEmployee(Employee employee, String name, Integer age, Double payment, Double bonus){

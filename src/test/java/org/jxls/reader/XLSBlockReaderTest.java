@@ -35,7 +35,7 @@ public class XLSBlockReaderTest extends TestCase {
 //        ConvertUtils.register( new SqlDateConverter(null), java.util.Date.class);
     }
 
-    public void testRead() throws IOException, IllegalAccessException, InvocationTargetException, NoSuchMethodException, InstantiationException, ParseException, InvalidFormatException {
+    public void testRead() throws IOException, ParseException, InvalidFormatException {
         InputStream inputXLS = new BufferedInputStream(getClass().getResourceAsStream(dataXLS));
         Workbook hssfInputWorkbook = WorkbookFactory.create(inputXLS);
         Sheet sheet = hssfInputWorkbook.getSheetAt( 0 );
