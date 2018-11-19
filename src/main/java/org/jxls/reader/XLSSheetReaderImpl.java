@@ -25,16 +25,9 @@ public class XLSSheetReaderImpl implements XLSSheetReader {
         readStatus.clear();
         XLSRowCursor cursor = new XLSRowCursorImpl( sheetName, sheet );
         for (int i = 0; i < blockReaders.size(); i++) {
-        	XLSBlockReader blockReader = (XLSBlockReader) blockReaders.get(i);
-            final int startRow = blockReader.getStartRow();
-            final boolean mvCursor = startRow > 0 && startRow < sheet.getLastRowNum();
-			if( mvCursor ){
-            	cursor.setCurrentRowNum(startRow);
-            }
+            XLSBlockReader blockReader = (XLSBlockReader) blockReaders.get(i);
             readStatus.mergeReadStatus( blockReader.read( cursor, beans ) );
-            if( !mvCursor ){
-            	cursor.moveForward();
-            }
+            cursor.moveForward();
         }
         return readStatus;
     }

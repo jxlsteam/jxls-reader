@@ -39,20 +39,12 @@ public class XLSForEachBlockReaderImpl extends BaseBlockReader implements XLSLoo
 
     public XLSReadStatus read(XLSRowCursor cursor, Map beans) {
         readStatus.clear();
-        //skip before startRow
-        while(startRow > cursor.getCurrentRowNum() &&cursor.hasNext() ){
-        	cursor.moveForward();
-        }
         JexlContext context = new MapContext(beans);
         ExpressionCollectionParser parser = new ExpressionCollectionParser(context, items + ";", true);
         Collection itemsCollection = parser.getCollection();
         while (!loopBreakCheck.isCheckSuccessful(cursor)) {
             createNewCollectionItem(itemsCollection, beans);
             readInnerBlocks(cursor, beans);
-            if( endRow > startRow && cursor.getCurrentRowNum()  >= endRow ){
-            	//break after endRow if enRow > startRow
-            	break;
-            }
         }
         cursor.moveBackward();
         return readStatus;

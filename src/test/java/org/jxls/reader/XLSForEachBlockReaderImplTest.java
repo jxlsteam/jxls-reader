@@ -215,43 +215,4 @@ public class XLSForEachBlockReaderImplTest extends TestCase {
         return sectionCheck;
     }
 
-    
-    public void test4respectStartEndRow() throws Exception {
-		InputStream inputXLS = new BufferedInputStream(getClass().getResourceAsStream(departmentDataXLS));
-        Workbook hssfInputWorkbook = WorkbookFactory.create(inputXLS);
-        Sheet sheet = hssfInputWorkbook.getSheetAt( 0 );
-        System.out.println("sheet:"+sheet);
-        Map beans = new HashMap();
-        Map dept = new HashMap();
-        List list = new ArrayList();
-        beans.put("list",  list);
-        XLSSheetReader sheet1Reader = new XLSSheetReaderImpl();
-    
-        final int endRow = sheet.getLastRowNum();
-        final int startRow = 8;
-        final XLSLoopBlockReader forEachReader = new XLSForEachBlockReaderImpl(startRow, 11, "list", "row", HashMap.class);
-       	final List employeeMappings = new ArrayList();
-        employeeMappings.add( new BeanCellMapping(startRow, (short) 0, "row", "name") );
-        employeeMappings.add( new BeanCellMapping(startRow, (short) 1, "row", "age") );
-        employeeMappings.add( new BeanCellMapping(startRow, (short) 3, "row", "payment") );
-        employeeMappings.add( new BeanCellMapping(startRow, (short) 4, "row", "bonus") );
-        XLSBlockReader reader = new SimpleBlockReaderImpl(startRow, startRow, employeeMappings);
-        forEachReader.addBlockReader( reader );        
-        SectionCheck loopBreakCheck = getLoopBreakCheck();
-        forEachReader.setLoopBreakCondition( loopBreakCheck );
-        sheet1Reader.addBlockReader(forEachReader);
-
-        int[][]  testCases = { 
-        		{7,11,4},{7,-1,4} ,{7,7,4}   
-        		,{8,11,3},{9,11,2},{9,-1,2},{7,10,3}
-        };
-        for(int[] sample : testCases){
-        	forEachReader.setStartRow(sample[0]);
-        	forEachReader.setEndRow(sample[1]);
-        	list.clear();
-        	sheet1Reader.read( sheet, beans );
-        	assertEquals(sample[2], list.size());
-        }
-      
-	}
 }
