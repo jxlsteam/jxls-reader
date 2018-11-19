@@ -70,13 +70,13 @@ public class OffsetCellCheckImpl implements OffsetCellCheck {
         if (obj instanceof String) {
             value = readStringValue(cell);
         } else if (obj instanceof Double) {
-            value = new Double(cell.getNumericCellValue());
+            value = cell.getNumericCellValue();
         } else if (obj instanceof BigDecimal) {
             value = new BigDecimal(cell.getNumericCellValue());
         } else if (obj instanceof Integer) {
-            value = new Integer((int) cell.getNumericCellValue());
+            value = (int) cell.getNumericCellValue();
         } else if (obj instanceof Float) {
-            value = new Float(cell.getNumericCellValue());
+            value = (float) cell.getNumericCellValue();
         } else if (obj instanceof Date) {
             value = cell.getDateCellValue();
         } else if (obj instanceof Calendar) {

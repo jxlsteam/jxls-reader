@@ -3,9 +3,6 @@ package org.jxls.reader;
 import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -37,7 +34,7 @@ public class SequentialConversionTest extends TestCase{
 				InputStream inputXML = new BufferedInputStream(resourceAsStream);
 		        firstReader = ReaderBuilder.buildFromXML( inputXML );
 		        ConvertUtilsBean firstReaderConvertUtilsBean = firstReader.getConvertUtilsBeanProvider().getConvertUtilsBean();
-		        firstReaderConvertUtilsBean.register( new Converter(){@Override
+		        firstReaderConvertUtilsBean.register( new Converter(){
 		        	public Object convert(Class dateClazz, Object value ) {
 		        		Date result;
 						Date parsedValue = (Date)(new DateConverter()).convert(dateClazz, value);
@@ -57,7 +54,7 @@ public class SequentialConversionTest extends TestCase{
 				InputStream inputXML = new BufferedInputStream(resourceAsStream);
 				secondReader = ReaderBuilder.buildFromXML( inputXML );
 		        ConvertUtilsBean secondReaderConvertUtilsBean = secondReader.getConvertUtilsBeanProvider().getConvertUtilsBean();
-		        secondReaderConvertUtilsBean.register( new Converter(){@Override
+		        secondReaderConvertUtilsBean.register( new Converter(){
 		        	public Object convert(Class dateClazz, Object value ) {
 		        		Date result;
 			        	Date parsedValue = (Date)(new DateConverter()).convert(dateClazz, value);
@@ -74,7 +71,7 @@ public class SequentialConversionTest extends TestCase{
 				Department firstDepartment = new Department();
 		        Department firstHRDepartment = new Department();
 		        List firstDepartments = new ArrayList();
-		        Map firstBeans = new HashMap();
+				Map<String, Object> firstBeans = new HashMap<String, Object>();
 		        firstBeans.put("department", firstDepartment);
 		        firstBeans.put("hrDepartment", firstHRDepartment);
 		        firstBeans.put("departments", firstDepartments);
@@ -83,14 +80,14 @@ public class SequentialConversionTest extends TestCase{
 		        firstReader.read( inputXLS, firstBeans);
 		        
 		        Employee employee = (Employee) firstDepartment.getStaff().get(0);
-		        assertTrue( employee.getBirthDate().getYear() == 117 );
+				assertEquals(117, employee.getBirthDate().getYear());
 			}
 			
 			{
 				Department secondDepartment = new Department();
 		        Department secondHRDepartment = new Department();
 		        List secondDepartments = new ArrayList();
-		        Map secondBeans = new HashMap();
+		        Map<String, Object> secondBeans = new HashMap<String, Object>();
 		        secondBeans.put("department", secondDepartment);
 		        secondBeans.put("hrDepartment", secondHRDepartment);
 		        secondBeans.put("departments", secondDepartments);
@@ -98,7 +95,7 @@ public class SequentialConversionTest extends TestCase{
 		        InputStream inputXLS = new BufferedInputStream(getClass().getResourceAsStream(dataXLS));
 		        secondReader.read( inputXLS, secondBeans);
 		        Employee employee = (Employee) secondDepartment.getStaff().get(0);
-		        assertTrue( employee.getBirthDate().getYear() == 120 );
+				assertEquals(120, employee.getBirthDate().getYear());
 			}
 	        
 	    }

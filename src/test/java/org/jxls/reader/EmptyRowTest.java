@@ -24,7 +24,7 @@ public class EmptyRowTest extends TestCase {
         InputStream inputXML = new BufferedInputStream(getClass().getResourceAsStream(xmlConfig));
         XLSReader reader = ReaderBuilder.buildFromXML(inputXML);
         ReaderConfig.getInstance().setSkipErrors( true );
-        Map beans = new HashMap();
+        Map<String, Object> beans = new HashMap<String, Object>();
         List rules = new ArrayList();
         beans.put("rules", rules);
         try {

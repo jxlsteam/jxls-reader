@@ -3,7 +3,6 @@ package org.jxls.reader;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Map;
 
-import org.apache.commons.beanutils.ConvertUtilsBean;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.poi.ss.util.CellReference;
 import org.slf4j.Logger;

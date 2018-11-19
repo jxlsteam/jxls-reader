@@ -5,7 +5,6 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.beanutils.ConvertUtilsBean;
 import org.apache.commons.jexl2.JexlContext;
 import org.apache.commons.jexl2.MapContext;
 import org.apache.commons.logging.Log;
@@ -51,7 +50,6 @@ public class XLSForEachBlockReaderImpl extends BaseBlockReader implements XLSLoo
 
     }
     
-    @Override
 	public void setConvertUtilsBeanProvider(ConvertUtilsBeanProvider provider) {
 		this.convertUtilsProvider.setDelegate(  provider );
 	}
@@ -76,8 +74,8 @@ public class XLSForEachBlockReaderImpl extends BaseBlockReader implements XLSLoo
     }
 
     private void readInnerBlocks(XLSRowCursor cursor, Map beans) {
-        for (int i = 0; i < innerBlockReaders.size(); i++) {
-            XLSBlockReader xlsBlockReader = (XLSBlockReader) innerBlockReaders.get(i);
+        for (Object innerBlockReader : innerBlockReaders) {
+            XLSBlockReader xlsBlockReader = (XLSBlockReader) innerBlockReader;
             readStatus.mergeReadStatus(xlsBlockReader.read(cursor, beans));
             cursor.moveForward();
         }

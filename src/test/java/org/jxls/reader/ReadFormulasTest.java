@@ -26,14 +26,14 @@ public class ReadFormulasTest extends TestCase {
         InputStream inputXLS = new BufferedInputStream(getClass().getResourceAsStream(formulasXLS));
         List employees = new ArrayList();
         SimpleBean bean = new SimpleBean();
-        Map beans = new HashMap();
+        Map<String, Object> beans = new HashMap<String, Object>();
         beans.put("employees", employees);
         beans.put("bean", bean);
         reader.read( inputXLS, beans);
         assertNotNull( employees );
         assertEquals(4, employees.size());
         assertEquals( "Value or formula is incorrect ", new Integer(5), bean.getIntValue1() );
-        assertEquals( "Value or formula is incorrect ", new Double(9805), bean.getDoubleValue() );
+        assertEquals( "Value or formula is incorrect ", 9805d, bean.getDoubleValue() );
         assertEquals( "Value or formula is incorrect ", "Age&Payment", bean.getStr() );
         inputXLS.close();
 

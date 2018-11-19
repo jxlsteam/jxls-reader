@@ -53,7 +53,7 @@ public class ReaderBuilderTest extends TestCase {
         Department department = new Department();
         Department hrDepartment = new Department();
         List departments = new ArrayList();
-        Map beans = new HashMap();
+        Map<String, Object> beans = new HashMap<String, Object>();
         beans.put("department", department);
         beans.put("hrDepartment", hrDepartment);
         beans.put("departments", departments);
@@ -63,28 +63,28 @@ public class ReaderBuilderTest extends TestCase {
         assertEquals( "IT", department.getName() );
         assertEquals( "Maxim", department.getChief().getName() );
         assertEquals( new Integer(30), department.getChief().getAge() );
-        assertEquals( new Double( 3000.0), department.getChief().getPayment() );
-        assertEquals( new Double(0.25), department.getChief().getBonus() );
+        assertEquals(3000.0, department.getChief().getPayment() );
+        assertEquals(0.25, department.getChief().getBonus() );
         assertEquals( 4, department.getStaff().size() );
         Employee employee = (Employee) department.getStaff().get(0);
-        checkEmployee( employee, "Oleg", new Integer(32), new Double(2000.0), new Double(0.20) );
+        checkEmployee( employee, "Oleg", 32, 2000.0, 0.20);
         employee = (Employee) department.getStaff().get(1);
-        checkEmployee( employee, "Yuri", new Integer(29), new Double(1800.0), new Double(0.15) );
+        checkEmployee( employee, "Yuri", 29, 1800.0, 0.15);
         employee = (Employee) department.getStaff().get(2);
-        checkEmployee( employee, "Leonid", new Integer(30), new Double(1700.0), new Double(0.20) );
+        checkEmployee( employee, "Leonid", 30, 1700.0, 0.20);
         employee = (Employee) department.getStaff().get(3);
-        checkEmployee( employee, "Alex", new Integer(28), new Double(1600.0), new Double(0.20) );
+        checkEmployee( employee, "Alex", 28, 1600.0, 0.20);
         // check sheet2 data
-        checkEmployee( hrDepartment.getChief(), "Betsy", new Integer(37), new Double(2200.0), new Double(0.3) );
+        checkEmployee( hrDepartment.getChief(), "Betsy", 37, 2200.0, 0.3);
         assertEquals(4, hrDepartment.getStaff().size() );
         employee = (Employee) hrDepartment.getStaff().get(0);
-        checkEmployee( employee, "Olga", new Integer(26), new Double(1400.0), new Double(0.20) );
+        checkEmployee( employee, "Olga", 26, 1400.0, 0.20);
         employee = (Employee) hrDepartment.getStaff().get(1);
-        checkEmployee( employee, "Helen", new Integer(30), new Double(2100.0), new Double(0.10) );
+        checkEmployee( employee, "Helen", 30, 2100.0, 0.10);
         employee = (Employee) hrDepartment.getStaff().get(2);
-        checkEmployee( employee, "Keith", new Integer(24), new Double(1800.0), new Double(0.15) );
+        checkEmployee( employee, "Keith", 24, 1800.0, 0.15);
         employee = (Employee) hrDepartment.getStaff().get(3);
-        checkEmployee( employee, "Cat", new Integer(34), new Double(1900.0), new Double(0.15) );
+        checkEmployee( employee, "Cat", 34, 1900.0, 0.15);
     }
 
     public void testBuildFromXMLBySheetIndex() throws IOException, SAXException, InvalidFormatException {
@@ -94,7 +94,7 @@ public class ReaderBuilderTest extends TestCase {
         Department department = new Department();
         Department hrDepartment = new Department();
         List departments = new ArrayList();
-        Map beans = new HashMap();
+        Map<String, Object> beans = new HashMap<String, Object>();
         beans.put("department", department);
         beans.put("hrDepartment", hrDepartment);
         beans.put("departments", departments);
@@ -104,28 +104,28 @@ public class ReaderBuilderTest extends TestCase {
         assertEquals( "IT", department.getName() );
         assertEquals( "Maxim", department.getChief().getName() );
         assertEquals( new Integer(30), department.getChief().getAge() );
-        assertEquals( new Double( 3000.0), department.getChief().getPayment() );
-        assertEquals( new Double(0.25), department.getChief().getBonus() );
+        assertEquals(3000.0, department.getChief().getPayment() );
+        assertEquals(0.25, department.getChief().getBonus() );
         assertEquals( 4, department.getStaff().size() );
         Employee employee = (Employee) department.getStaff().get(0);
-        checkEmployee( employee, "Oleg", new Integer(32), new Double(2000.0), new Double(0.20) );
+        checkEmployee( employee, "Oleg", 32, 2000.0, 0.20);
         employee = (Employee) department.getStaff().get(1);
-        checkEmployee( employee, "Yuri", new Integer(29), new Double(1800.0), new Double(0.15) );
+        checkEmployee( employee, "Yuri", 29, 1800.0, 0.15);
         employee = (Employee) department.getStaff().get(2);
-        checkEmployee( employee, "Leonid", new Integer(30), new Double(1700.0), new Double(0.20) );
+        checkEmployee( employee, "Leonid", 30, 1700.0, 0.20);
         employee = (Employee) department.getStaff().get(3);
-        checkEmployee( employee, "Alex", new Integer(28), new Double(1600.0), new Double(0.20) );
+        checkEmployee( employee, "Alex", 28, 1600.0, 0.20);
         // check sheet2 data
-        checkEmployee( hrDepartment.getChief(), "Betsy", new Integer(37), new Double(2200.0), new Double(0.3) );
+        checkEmployee( hrDepartment.getChief(), "Betsy", 37, 2200.0, 0.3);
         assertEquals(4, hrDepartment.getStaff().size() );
         employee = (Employee) hrDepartment.getStaff().get(0);
-        checkEmployee( employee, "Olga", new Integer(26), new Double(1400.0), new Double(0.20) );
+        checkEmployee( employee, "Olga", 26, 1400.0, 0.20);
         employee = (Employee) hrDepartment.getStaff().get(1);
-        checkEmployee( employee, "Helen", new Integer(30), new Double(2100.0), new Double(0.10) );
+        checkEmployee( employee, "Helen", 30, 2100.0, 0.10);
         employee = (Employee) hrDepartment.getStaff().get(2);
-        checkEmployee( employee, "Keith", new Integer(24), new Double(1800.0), new Double(0.15) );
+        checkEmployee( employee, "Keith", 24, 1800.0, 0.15);
         employee = (Employee) hrDepartment.getStaff().get(3);
-        checkEmployee( employee, "Cat", new Integer(34), new Double(1900.0), new Double(0.15) );
+        checkEmployee( employee, "Cat", 34, 1900.0, 0.15);
     }
 
     private void checkEmployee(Employee employee, String name, Integer age, Double payment, Double bonus){

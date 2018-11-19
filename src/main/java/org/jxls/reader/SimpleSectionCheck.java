@@ -8,7 +8,7 @@ import java.util.List;
  */
 public class SimpleSectionCheck implements SectionCheck {
 
-    List offsetRowChecks = new ArrayList();
+    List<OffsetRowCheck> offsetRowChecks = new ArrayList<OffsetRowCheck>();
 
     public SimpleSectionCheck() {
     }
@@ -18,9 +18,8 @@ public class SimpleSectionCheck implements SectionCheck {
     }
 
     public boolean isCheckSuccessful(XLSRowCursor cursor) {
-        for (int i = 0; i < offsetRowChecks.size(); i++) {
-            OffsetRowCheck offsetRowCheck = (OffsetRowCheck) offsetRowChecks.get(i);
-            if( !offsetRowCheck.isCheckSuccessful( cursor ) ){
+        for (OffsetRowCheck offsetRowCheck : offsetRowChecks) {
+            if (!offsetRowCheck.isCheckSuccessful(cursor)) {
                 return false;
             }
         }
@@ -36,7 +35,7 @@ public class SimpleSectionCheck implements SectionCheck {
         return offsetRowChecks;
     }
 
-    public void setOffsetRowChecks(List offsetRowChecks) {
+    public void setOffsetRowChecks(List<OffsetRowCheck> offsetRowChecks) {
         this.offsetRowChecks = offsetRowChecks;
     }
 }

@@ -15,7 +15,7 @@ public class DateConverter implements Converter {
         }
         double date;
         if( value instanceof Double ){
-            date = ((Double)value).doubleValue();
+            date = (Double) value;
         }else if( value instanceof Number){
             date = ((Number)value).doubleValue();
         }else if( value instanceof String ){

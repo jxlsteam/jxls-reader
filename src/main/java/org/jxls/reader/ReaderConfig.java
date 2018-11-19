@@ -1,7 +1,3 @@
-/**
- * @version 1.0 28.07.2007
- * @author Leonid Vysochyn
- */
 package org.jxls.reader;
 
 import org.apache.commons.beanutils.ConvertUtilsBean;
@@ -24,11 +20,11 @@ public class ReaderConfig {
     /**
      * The default value for Character conversions.
      */
-    private static Character defaultCharacter = new Character(' ');
+    private static Character defaultCharacter = ' ';
     /**
      * The default value for Byte conversions.
      */
-    private static Byte defaultByte = new Byte((byte) 0);
+    private static Byte defaultByte = (byte) 0;
     /**
      * The default value for Boolean conversions.
      */
@@ -36,23 +32,23 @@ public class ReaderConfig {
     /**
      * The default value for Double conversions.
      */
-    private static Double defaultDouble = new Double((double) 0.0);
+    private static Double defaultDouble = 0.0;
     /**
      * The default value for Float conversions.
      */
-    private static Float defaultFloat = new Float((float) 0.0);
+    private static Float defaultFloat = (float) 0.0;
     /**
      * The default value for Integer conversions.
      */
-    private static Integer defaultInteger = new Integer(0);
+    private static Integer defaultInteger = 0;
     /**
      * The default value for Long conversions.
      */
-    private static Long defaultLong = new Long((long) 0);
+    private static Long defaultLong = (long) 0;
     /**
      * The default value for Short conversions.
      */
-    private static Short defaultShort = new Short((short) 0);
+    private static Short defaultShort = (short) 0;
    
     public static ConvertUtilsBean createConvertUtilsBean(boolean useDefaultValuesForPrimitiveTypes ){
     	return initializeConverters( useDefaultValuesForPrimitiveTypes );

@@ -11,7 +11,7 @@ import org.apache.poi.ss.usermodel.Row;
  */
 public class OffsetRowCheckImpl implements OffsetRowCheck {
 
-    List cellChecks = new ArrayList();
+    List<OffsetCellCheck> cellChecks = new ArrayList<OffsetCellCheck>();
     int offset;
 
 
@@ -22,7 +22,7 @@ public class OffsetRowCheckImpl implements OffsetRowCheck {
         this.offset = offset;
     }
 
-    public OffsetRowCheckImpl(List cellChecks) {
+    public OffsetRowCheckImpl(List<OffsetCellCheck> cellChecks) {
         this.cellChecks = cellChecks;
     }
 
@@ -38,7 +38,7 @@ public class OffsetRowCheckImpl implements OffsetRowCheck {
         return cellChecks;
     }
 
-    public void setCellChecks(List cellChecks) {
+    public void setCellChecks(List<OffsetCellCheck> cellChecks) {
         this.cellChecks = cellChecks;
     }
 
@@ -46,9 +46,8 @@ public class OffsetRowCheckImpl implements OffsetRowCheck {
         if( cellChecks.isEmpty() ){
             return isRowEmpty( row );
         }
-        for (int i = 0; i < cellChecks.size(); i++) {
-            OffsetCellCheck offsetCellCheck = (OffsetCellCheck) cellChecks.get(i);
-            if( !offsetCellCheck.isCheckSuccessful( row ) ){
+        for (OffsetCellCheck offsetCellCheck : cellChecks) {
+            if (!offsetCellCheck.isCheckSuccessful(row)) {
                 return false;
             }
         }
@@ -70,9 +69,8 @@ public class OffsetRowCheckImpl implements OffsetRowCheck {
         if( cellChecks.isEmpty() ){
             return true;
         }
-        for (int i = 0; i < cellChecks.size(); i++) {
-            OffsetCellCheck offsetCellCheck = (OffsetCellCheck) cellChecks.get(i);
-            if( !isCellCheckEmpty(offsetCellCheck) ){
+        for (OffsetCellCheck offsetCellCheck : cellChecks) {
+            if (!isCellCheckEmpty(offsetCellCheck)) {
                 return false;
             }
         }
@@ -83,10 +81,7 @@ public class OffsetRowCheckImpl implements OffsetRowCheck {
         if( cellCheck.getValue() == null ){
             return true;
         }
-        if( cellCheck.getValue().toString().trim().equals("") ){
-            return true;
-        }
-        return false;
+        return cellCheck.getValue().toString().trim().equals("");
     }
 
 
