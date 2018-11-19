@@ -5,6 +5,7 @@ import java.util.Calendar;
 import java.util.Date;
 
 import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.ss.usermodel.Row;
 
 /**
@@ -83,9 +84,9 @@ public class OffsetCellCheckImpl implements OffsetCellCheck {
             c.setTime(cell.getDateCellValue());
             value = c;
         } else if (obj instanceof Boolean) {
-            if (cell.getCellType() == Cell.CELL_TYPE_BOOLEAN) {
+            if (cell.getCellTypeEnum() == CellType.BOOLEAN) {
                 value = (cell.getBooleanCellValue()) ? Boolean.TRUE : Boolean.FALSE;
-            } else if (cell.getCellType() == Cell.CELL_TYPE_STRING) {
+            } else if (cell.getCellTypeEnum() == CellType.STRING) {
                 value = Boolean.valueOf(cell.getRichStringCellValue().getString());
             } else {
                 value = Boolean.FALSE;
@@ -96,21 +97,21 @@ public class OffsetCellCheckImpl implements OffsetCellCheck {
 
     private String readStringValue(Cell cell) {
         String value = null;
-        switch (cell.getCellType()) {
-            case Cell.CELL_TYPE_STRING:
+        switch (cell.getCellTypeEnum()) {
+            case STRING:
                 value = cell.getRichStringCellValue().getString().trim();
                 break;
-            case Cell.CELL_TYPE_NUMERIC:
+            case NUMERIC:
                 value = Double.toString(cell.getNumericCellValue()).trim();
                 break;
-            case Cell.CELL_TYPE_BLANK:
+            case BLANK:
                 value = "";
                 break;
-            case Cell.CELL_TYPE_BOOLEAN:
+            case BOOLEAN:
                 break;
-            case Cell.CELL_TYPE_ERROR:
+            case ERROR:
                 break;
-            case Cell.CELL_TYPE_FORMULA:
+            case FORMULA:
                 break;
             default:
                 break;

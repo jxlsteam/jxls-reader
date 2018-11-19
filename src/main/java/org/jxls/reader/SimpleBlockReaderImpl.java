@@ -86,21 +86,21 @@ public class SimpleBlockReaderImpl extends BaseBlockReader implements SimpleBloc
     private String getCellString(Cell cell) {
         String dataString = null;
         if (cell != null) {
-            switch (cell.getCellType()) {
-                case Cell.CELL_TYPE_STRING:
+            switch (cell.getCellTypeEnum()) {
+                case STRING:
                     dataString = cell.getRichStringCellValue().getString();
                     break;
-                case Cell.CELL_TYPE_NUMERIC:
+                case NUMERIC:
                     dataString = readNumericCell(cell);
                     break;
-                case Cell.CELL_TYPE_BOOLEAN:
+                case BOOLEAN:
                     dataString = Boolean.toString(cell.getBooleanCellValue());
                     break;
-                case Cell.CELL_TYPE_BLANK:
+                case BLANK:
                     break;
-                case Cell.CELL_TYPE_ERROR:
+                case ERROR:
                     break;
-                case Cell.CELL_TYPE_FORMULA:
+                case FORMULA:
                     // attempt to read formula cell as numeric cell
                     try{
                     dataString = readNumericCell(cell);
