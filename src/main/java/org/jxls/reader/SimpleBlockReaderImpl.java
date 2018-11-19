@@ -1,6 +1,5 @@
 package org.jxls.reader;
 
-import org.apache.commons.beanutils.ConvertUtilsBean;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.poi.ss.usermodel.Cell;
@@ -9,7 +8,6 @@ import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.util.CellReference;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -19,7 +17,7 @@ import java.util.Map;
 public class SimpleBlockReaderImpl extends BaseBlockReader implements SimpleBlockReader {
     protected final Log log = LogFactory.getLog(getClass());
 
-    List beanCellMappings = new ArrayList();
+    List<BeanCellMapping> beanCellMappings = new ArrayList<BeanCellMapping>();
     SectionCheck sectionCheck;
 
     static {
@@ -31,14 +29,14 @@ public class SimpleBlockReaderImpl extends BaseBlockReader implements SimpleBloc
     public SimpleBlockReaderImpl() {
     }
 
-    public SimpleBlockReaderImpl(int startRow, int endRow, List beanCellMappings) {
+    public SimpleBlockReaderImpl(int startRow, int endRow, List<BeanCellMapping> beanCellMappings) {
         this.startRow = startRow;
         this.endRow = endRow;
         // Avoid change internal behaviour by changing external list.
         // this change has required changing tests
-        this.beanCellMappings = new ArrayList( beanCellMappings );
-        for( int i = 0; i< this.beanCellMappings.size(); i++){
-        	((BeanCellMapping)this.beanCellMappings.get( i )).setConvertUtilsProvider( convertUtilsProvider ); 
+        this.beanCellMappings = new ArrayList<BeanCellMapping>( beanCellMappings );
+        for (BeanCellMapping beanCellMapping : this.beanCellMappings) {
+            beanCellMapping.setConvertUtilsProvider(convertUtilsProvider);
         }
     }
 
@@ -56,8 +54,8 @@ public class SimpleBlockReaderImpl extends BaseBlockReader implements SimpleBloc
         final int currentRowNum = cursor.getCurrentRowNum();
         final int rowShift = currentRowNum - startRow;
         BeanCellMapping mapping;
-        for (Iterator iterator = beanCellMappings.iterator(); iterator.hasNext();) {
-            mapping = (BeanCellMapping) iterator.next();
+        for (BeanCellMapping beanCellMapping : beanCellMappings) {
+            mapping = beanCellMapping;
             try {
                 String dataString = readCellString(cursor.getSheet(), mapping.getRow() + rowShift, mapping.getCol());
                 mapping.populateBean(dataString, beans);
@@ -86,21 +84,21 @@ public class SimpleBlockReaderImpl extends BaseBlockReader implements SimpleBloc
     private String getCellString(Cell cell) {
         String dataString = null;
         if (cell != null) {
-            switch (cell.getCellType()) {
-                case Cell.CELL_TYPE_STRING:
+            switch (cell.getCellTypeEnum()) {
+                case STRING:
                     dataString = cell.getRichStringCellValue().getString();
                     break;
-                case Cell.CELL_TYPE_NUMERIC:
+                case NUMERIC:
                     dataString = readNumericCell(cell);
                     break;
-                case Cell.CELL_TYPE_BOOLEAN:
+                case BOOLEAN:
                     dataString = Boolean.toString(cell.getBooleanCellValue());
                     break;
-                case Cell.CELL_TYPE_BLANK:
+                case BLANK:
                     break;
-                case Cell.CELL_TYPE_ERROR:
+                case ERROR:
                     break;
-                case Cell.CELL_TYPE_FORMULA:
+                case FORMULA:
                     // attempt to read formula cell as numeric cell
                     try{
                     dataString = readNumericCell(cell);
@@ -124,7 +122,7 @@ public class SimpleBlockReaderImpl extends BaseBlockReader implements SimpleBloc
 
     private String readNumericCell(Cell cell) {
         double value;
-        String dataString = null;
+        String dataString;
         value = cell.getNumericCellValue();
         if (((int) value) == value) {
             dataString = Integer.toString((int) value);

@@ -10,7 +10,7 @@ import java.util.List;
 public class Department {
     private String name;
     private Employee chief = new Employee();
-    private List staff = new ArrayList();
+    private List<Employee> staff = new ArrayList<Employee>();
 
 
     public Department() {
@@ -20,7 +20,7 @@ public class Department {
         this.name = name;
     }
 
-    public Department(String name, Employee chief, List staff) {
+    public Department(String name, Employee chief, List<Employee> staff) {
         this.name = name;
         this.chief = chief;
         this.staff = staff;
@@ -50,7 +50,7 @@ public class Department {
         return staff;
     }
 
-    public void setStaff(List staff) {
+    public void setStaff(List<Employee> staff) {
         this.staff = staff;
     }
 }

@@ -21,8 +21,8 @@ import org.apache.poi.ss.usermodel.WorkbookFactory;
 public class XLSReaderImpl implements XLSReader{
     protected final Log log = LogFactory.getLog(getClass());
 
-    Map sheetReaders = new HashMap();
-    Map sheetReadersByIdx = new HashMap();
+    Map<String, XLSSheetReader> sheetReaders = new HashMap<String, XLSSheetReader>();
+    Map<Integer, XLSSheetReader> sheetReadersByIdx = new HashMap<Integer, XLSSheetReader>();
 
 
     XLSReadStatus readStatus = new XLSReadStatus();
@@ -51,10 +51,10 @@ public class XLSReaderImpl implements XLSReader{
         }
         XLSSheetReader sheetReader;
         if(sheetReaders.containsKey(sheetName)){
-            sheetReader = (XLSSheetReader) sheetReaders.get(sheetName);
+            sheetReader = sheetReaders.get(sheetName);
             return readSheet(sheetReader, sheet, sheetName, beans);
-        } else if(sheetReadersByIdx.containsKey(new Integer(sheetNo))){
-            sheetReader = (XLSSheetReader) sheetReadersByIdx.get(new Integer(sheetNo));
+        } else if(sheetReadersByIdx.containsKey(sheetNo)){
+            sheetReader = sheetReadersByIdx.get(sheetNo);
             return readSheet(sheetReader, sheet, sheetName, beans);
         } else{
             return null;
@@ -91,7 +91,7 @@ public class XLSReaderImpl implements XLSReader{
     public void addSheetReader(XLSSheetReader reader){
         addSheetReader(reader.getSheetName(), reader);
         if( reader.getSheetIdx() >= 0 ){
-            addSheetReader(new Integer(reader.getSheetIdx()), reader);
+            addSheetReader(reader.getSheetIdx(), reader);
         }
     }
 

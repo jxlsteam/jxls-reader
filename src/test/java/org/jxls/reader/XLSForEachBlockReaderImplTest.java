@@ -38,9 +38,9 @@ public class XLSForEachBlockReaderImplTest extends TestCase {
         InputStream inputXLS = new BufferedInputStream(getClass().getResourceAsStream(departmentDataXLS));
         Workbook hssfInputWorkbook = WorkbookFactory.create(inputXLS);
         Sheet sheet = hssfInputWorkbook.getSheetAt( 0 );
-        List mappings = new ArrayList();
+        List<BeanCellMapping> mappings = new ArrayList<BeanCellMapping>();
         Department department = new Department();
-        Map beans = new HashMap();
+        Map<String, Object> beans = new HashMap<String, Object>();
         beans.put("department", department);
         mappings.add( new BeanCellMapping(7, (short) 0, "employee", "name"));
         mappings.add( new BeanCellMapping(7, (short) 1, "employee", "age"));
@@ -57,13 +57,13 @@ public class XLSForEachBlockReaderImplTest extends TestCase {
         forEachReader.read( cursor, beans );
         assertEquals( 4, department.getStaff().size() );
         Employee employee = (Employee) department.getStaff().get(0);
-        checkEmployee( employee, "Oleg", new Integer(32), new Double(2000.0), new Double(0.20) );
+        checkEmployee( employee, "Oleg", 32, 2000.0, 0.20);
         employee = (Employee) department.getStaff().get(1);
-        checkEmployee( employee, "Yuri", new Integer(29), new Double(1800.0), new Double(0.15) );
+        checkEmployee( employee, "Yuri", 29, 1800.0, 0.15);
         employee = (Employee) department.getStaff().get(2);
-        checkEmployee( employee, "Leonid", new Integer(30), new Double(1700.0), new Double(0.20) );
+        checkEmployee( employee, "Leonid", 30, 1700.0, 0.20);
         employee = (Employee) department.getStaff().get(3);
-        checkEmployee( employee, "Alex", new Integer(28), new Double(1600.0), new Double(0.20) );
+        checkEmployee( employee, "Alex", 28, 1600.0, 0.20);
     }
 
     public void testRead2() throws IOException, InvalidFormatException {
@@ -74,7 +74,7 @@ public class XLSForEachBlockReaderImplTest extends TestCase {
         Map beans = new HashMap();
         List departments = new ArrayList();
         beans.put("departments", departments);
-        List chiefMappings = new ArrayList();
+        List<BeanCellMapping> chiefMappings = new ArrayList<BeanCellMapping>();
         chiefMappings.add( new BeanCellMapping(0, (short) 1, "department", "name") );
         chiefMappings.add( new BeanCellMapping(3, (short) 0, "department", "chief.name") );
         chiefMappings.add( new BeanCellMapping(3, (short) 1, "department.chief.age") );
@@ -82,7 +82,7 @@ public class XLSForEachBlockReaderImplTest extends TestCase {
         chiefMappings.add( new BeanCellMapping(3, (short) 3, "department", "chief.bonus") );
         XLSBlockReader chiefReader = new SimpleBlockReaderImpl(0, 6, chiefMappings);
 
-        List employeeMappings = new ArrayList();
+        List<BeanCellMapping> employeeMappings = new ArrayList<BeanCellMapping>();
         employeeMappings.add( new BeanCellMapping(7, (short) 0, "employee", "name") );
         employeeMappings.add( new BeanCellMapping(7, (short) 1, "employee", "age") );
         employeeMappings.add( new BeanCellMapping(7, (short) 2, "employee", "payment") );
@@ -95,7 +95,7 @@ public class XLSForEachBlockReaderImplTest extends TestCase {
         XLSLoopBlockReader departmentInfoReader = new XLSForEachBlockReaderImpl(0, 8, "departments", "department", Department.class);
         departmentInfoReader.addBlockReader( chiefReader );
         departmentInfoReader.addBlockReader( employeesReader );
-        departmentInfoReader.addBlockReader( new SimpleBlockReaderImpl(8, 8, new ArrayList()));
+        departmentInfoReader.addBlockReader( new SimpleBlockReaderImpl(8, 8, new ArrayList<BeanCellMapping>()));
         loopBreakCheck = new SimpleSectionCheck();
         loopBreakCheck.addRowCheck( new OffsetRowCheckImpl(0) );
         loopBreakCheck.addRowCheck( new OffsetRowCheckImpl(1) );
@@ -109,42 +109,42 @@ public class XLSForEachBlockReaderImplTest extends TestCase {
         assertEquals( 3, departments.size() );
 
         department = (Department) departments.get(0);
-        checkDepartmentInfo( department, "IT", "Derek", new Integer(35), new Double(3000.0), new Double(0.30) );
+        checkDepartmentInfo( department, "IT", "Derek", 35, 3000.0, 0.30);
         assertEquals( 5, department.getStaff().size() );
         Employee employee = (Employee) department.getStaff().get(0);
-        checkEmployee( employee, "Elsa", new Integer(28), new Double(1500.0), new Double(0.15) );
+        checkEmployee( employee, "Elsa", 28, 1500.0, 0.15);
         employee = (Employee) department.getStaff().get(1);
-        checkEmployee( employee, "Oleg", new Integer(32), new Double(2300.0), new Double(0.25) );
+        checkEmployee( employee, "Oleg", 32, 2300.0, 0.25);
         employee = (Employee) department.getStaff().get(2);
-        checkEmployee( employee, "Neil", new Integer(34), new Double(2500.0), new Double(0.00) );
+        checkEmployee( employee, "Neil", 34, 2500.0, 0.00);
         employee = (Employee) department.getStaff().get(3);
-        checkEmployee( employee, "Maria", new Integer(34), new Double(1700.0), new Double(0.15) );
+        checkEmployee( employee, "Maria", 34, 1700.0, 0.15);
         employee = (Employee) department.getStaff().get(4);
-        checkEmployee( employee, "John", new Integer(35), new Double(2800.0), new Double(0.20) );
+        checkEmployee( employee, "John", 35, 2800.0, 0.20);
 
         department = (Department) departments.get(1);
-        checkDepartmentInfo( department, "HR", "Betsy", new Integer(37), new Double(2200.0), new Double(0.30) );
+        checkDepartmentInfo( department, "HR", "Betsy", 37, 2200.0, 0.30);
         assertEquals( 4, department.getStaff().size() );
         employee = (Employee) department.getStaff().get(0);
-        checkEmployee( employee, "Olga", new Integer(26), new Double(1400.0), new Double(0.20) );
+        checkEmployee( employee, "Olga", 26, 1400.0, 0.20);
         employee = (Employee) department.getStaff().get(1);
-        checkEmployee( employee, "Helen", new Integer(30), new Double(2100.0), new Double(0.10) );
+        checkEmployee( employee, "Helen", 30, 2100.0, 0.10);
         employee = (Employee) department.getStaff().get(2);
-        checkEmployee( employee, "Keith", new Integer(24), new Double(1800.0), new Double(0.15) );
+        checkEmployee( employee, "Keith", 24, 1800.0, 0.15);
         employee = (Employee) department.getStaff().get(3);
-        checkEmployee( employee, "Cat", new Integer(34), new Double(1900.0), new Double(0.15) );
+        checkEmployee( employee, "Cat", 34, 1900.0, 0.15);
 
         department = (Department) departments.get(2);
-        checkDepartmentInfo( department, "BA", "Wendy", new Integer(35), new Double(2900.0), new Double(0.35) );
+        checkDepartmentInfo( department, "BA", "Wendy", 35, 2900.0, 0.35);
         assertEquals( 4, department.getStaff().size() );
         employee = (Employee) department.getStaff().get(0);
-        checkEmployee( employee, "Denise", new Integer(30), new Double(2400.0), new Double(0.20) );
+        checkEmployee( employee, "Denise", 30, 2400.0, 0.20);
         employee = (Employee) department.getStaff().get(1);
-        checkEmployee( employee, "LeAnn", new Integer(32), new Double(2200.0), new Double(0.15) );
+        checkEmployee( employee, "LeAnn", 32, 2200.0, 0.15);
         employee = (Employee) department.getStaff().get(2);
-        checkEmployee( employee, "Natali", new Integer(28), new Double(2600.0), new Double(0.10) );
+        checkEmployee( employee, "Natali", 28, 2600.0, 0.10);
         employee = (Employee) department.getStaff().get(3);
-        checkEmployee( employee, "Martha", new Integer(33), new Double(2150.0), new Double(0.25) );
+        checkEmployee( employee, "Martha", 33, 2150.0, 0.25);
     }
 
     public void testEmptyLoopBreakCondition() throws IOException, SAXException, InvalidFormatException {
@@ -153,15 +153,15 @@ public class XLSForEachBlockReaderImplTest extends TestCase {
         assertNotNull( reader );
         InputStream inputXLS = new BufferedInputStream(getClass().getResourceAsStream(employeeDataXLS));
         List employees = new ArrayList();
-        Map beans = new HashMap();
+        Map<String, Object> beans = new HashMap<String, Object>();
         beans.put("employees", employees);
         reader.read( inputXLS, beans);
         assertNotNull( employees );
         assertEquals(4, employees.size());
-        checkEmployee((Employee) employees.get(0), "Oleg", new Integer(34), new Double(3000.0), null);
-        checkEmployee((Employee) employees.get(1), "Yuriy", new Integer(29), new Double(2500.0), null);
-        checkEmployee((Employee) employees.get(2), "Alex", new Integer(30), new Double(2300.0), null);
-        checkEmployee((Employee) employees.get(3), "Vlad", new Integer(31), new Double(2000.0), null);
+        checkEmployee((Employee) employees.get(0), "Oleg", 34, 3000.0, null);
+        checkEmployee((Employee) employees.get(1), "Yuriy", 29, 2500.0, null);
+        checkEmployee((Employee) employees.get(2), "Alex", 30, 2300.0, null);
+        checkEmployee((Employee) employees.get(3), "Vlad", 31, 2000.0, null);
         inputXLS.close();
 
     }
@@ -172,7 +172,7 @@ public class XLSForEachBlockReaderImplTest extends TestCase {
         assertNotNull( reader );
         InputStream inputXLS = new BufferedInputStream(getClass().getResourceAsStream(idsXLS));
         List employees = new ArrayList();
-        Map beans = new HashMap();
+        Map<String, Object> beans = new HashMap<String, Object>();
         beans.put("employees", employees);
         reader.read( inputXLS, beans);
         assertNotNull( employees );

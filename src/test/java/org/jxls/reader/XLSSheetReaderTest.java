@@ -30,10 +30,10 @@ public class XLSSheetReaderTest extends TestCase {
 
         Department department = new Department();
         Employee chief = new Employee();
-        Map beans = new HashMap();
+        Map<String, Object> beans = new HashMap<String, Object>();
         beans.put("department", department);
         beans.put("chief", chief);
-        List chiefMappings = new ArrayList();
+        List<BeanCellMapping> chiefMappings = new ArrayList<BeanCellMapping>();
         chiefMappings.add( new BeanCellMapping(0, (short) 1, "department", "name") );
         chiefMappings.add( new BeanCellMapping(3, (short) 0, "chief", "name") );
         chiefMappings.add( new BeanCellMapping(3, (short) 1, "chief", "age") );
@@ -41,7 +41,7 @@ public class XLSSheetReaderTest extends TestCase {
         chiefMappings.add( new BeanCellMapping(3, (short) 4, "chief", "bonus") );
         XLSBlockReader reader1 = new SimpleBlockReaderImpl(0, 6, chiefMappings);
         
-        List employeeMappings = new ArrayList();
+        List<BeanCellMapping> employeeMappings = new ArrayList<BeanCellMapping>();
         employeeMappings.add( new BeanCellMapping(7, (short) 0, "employee", "name") );
         employeeMappings.add( new BeanCellMapping(7, (short) 1, "employee", "age") );
         employeeMappings.add( new BeanCellMapping(7, (short) 3, "employee", "payment") );
@@ -61,18 +61,18 @@ public class XLSSheetReaderTest extends TestCase {
         assertEquals( "IT", department.getName() );
         assertEquals( "Maxim", chief.getName() );
         assertEquals( new Integer(30), chief.getAge() );
-        assertEquals( new Double( 3000.0), chief.getPayment() );
-        assertEquals( new Double(0.25), chief.getBonus() );
+        assertEquals(3000.0, chief.getPayment() );
+        assertEquals(0.25, chief.getBonus() );
 
         assertEquals( 4, department.getStaff().size() );
         Employee employee = (Employee) department.getStaff().get(0);
-        checkEmployee( employee, "Oleg", new Integer(32), new Double(2000.0), new Double(0.20) );
+        checkEmployee( employee, "Oleg", 32, 2000.0, 0.20);
         employee = (Employee) department.getStaff().get(1);
-        checkEmployee( employee, "Yuri", new Integer(29), new Double(1800.0), new Double(0.15) );
+        checkEmployee( employee, "Yuri", 29, 1800.0, 0.15);
         employee = (Employee) department.getStaff().get(2);
-        checkEmployee( employee, "Leonid", new Integer(30), new Double(1700.0), new Double(0.20) );
+        checkEmployee( employee, "Leonid", 30, 1700.0, 0.20);
         employee = (Employee) department.getStaff().get(3);
-        checkEmployee( employee, "Alex", new Integer(28), new Double(1600.0), new Double(0.20) );
+        checkEmployee( employee, "Alex", 28, 1600.0, 0.20);
     }
 
     private void checkEmployee(Employee employee, String name, Integer age, Double payment, Double bonus){

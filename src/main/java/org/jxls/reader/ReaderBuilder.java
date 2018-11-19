@@ -6,7 +6,6 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
-import org.apache.commons.beanutils.ConvertUtilsBean;
 import org.apache.commons.digester3.Digester;
 import org.xml.sax.SAXException;
 

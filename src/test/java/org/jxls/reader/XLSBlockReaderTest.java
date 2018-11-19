@@ -35,14 +35,14 @@ public class XLSBlockReaderTest extends TestCase {
 //        ConvertUtils.register( new SqlDateConverter(null), java.util.Date.class);
     }
 
-    public void testRead() throws IOException, IllegalAccessException, InvocationTargetException, NoSuchMethodException, InstantiationException, ParseException, InvalidFormatException {
+    public void testRead() throws IOException, ParseException, InvalidFormatException {
         InputStream inputXLS = new BufferedInputStream(getClass().getResourceAsStream(dataXLS));
         Workbook hssfInputWorkbook = WorkbookFactory.create(inputXLS);
         Sheet sheet = hssfInputWorkbook.getSheetAt( 0 );
-        List mappings = new ArrayList();
+        List<BeanCellMapping> mappings = new ArrayList<BeanCellMapping>();
         Department departmentBean = new Department();
         Employee chief = new Employee();
-        Map beans = new HashMap();
+        Map<String, Object> beans = new HashMap<String, Object>();
         beans.put("department", departmentBean);
         beans.put("chief", chief);
 
@@ -53,15 +53,15 @@ public class XLSBlockReaderTest extends TestCase {
         mappings.add( new BeanCellMapping("D4", "chief.payment"));
         mappings.add( new BeanCellMapping("E4", "chief.bonus"));
 
-        XLSBlockReader reader = new SimpleBlockReaderImpl(0, 6, mappings);
+        SimpleBlockReaderImpl reader = new SimpleBlockReaderImpl(0, 6, mappings);
         XLSRowCursor cursor = new XLSRowCursorImpl( sheet );
         cursor.setSheetName( hssfInputWorkbook.getSheetName(0));
         reader.read( cursor, beans );
         assertEquals( "IT", departmentBean.getName() );
         assertEquals( "Maxim", chief.getName() );
         assertEquals( new Integer(30), chief.getAge() );
-        assertEquals( new Double( 3000.0), chief.getPayment() );
-        assertEquals( new Double(0.25), chief.getBonus() );
+        assertEquals(3000.0, chief.getPayment() );
+        assertEquals(0.25, chief.getBonus() );
 
         SimpleDateFormat format = new SimpleDateFormat("MM/dd/yyyy");
         Date date = format.parse("12/20/1976");
@@ -72,9 +72,9 @@ public class XLSBlockReaderTest extends TestCase {
         beans.clear();
         beans.put("total", dynaBean);
         reader.setStartRow(8);
-        ((SimpleBlockReaderImpl)reader).addMapping( new BeanCellMapping(9, (short) 3, "total", "totalPayment") );
+        reader.addMapping( new BeanCellMapping(9, (short) 3, "total", "totalPayment") );
         cursor.setCurrentRowNum( 12 );
         reader.read( cursor, beans );
-        assertEquals( new Integer(10100).toString(), dynaBean.get( "totalPayment" ));
+        assertEquals(Integer.toString(10100), dynaBean.get( "totalPayment" ));
     }
 }

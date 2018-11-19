@@ -28,7 +28,7 @@ public class ErrorHandlingTest extends TestCase {
         InputStream inputXML = new BufferedInputStream(getClass().getResourceAsStream(xmlConfig1));
         XLSReader reader = ReaderBuilder.buildFromXML( inputXML );
         ReaderConfig.getInstance().setSkipErrors( false );
-        Map beans = new HashMap();
+        Map<String, Object> beans = new HashMap<String, Object>();
         SimpleBean bean = new SimpleBean();
         beans.put( "bean", bean);
         try {
@@ -47,7 +47,7 @@ public class ErrorHandlingTest extends TestCase {
         InputStream inputXML = new BufferedInputStream(getClass().getResourceAsStream(xmlConfig1));
         XLSReader reader = ReaderBuilder.buildFromXML( inputXML );
         ReaderConfig.getInstance().setSkipErrors( true );
-        Map beans = new HashMap();
+        Map<String, Object> beans = new HashMap<String, Object>();
         SimpleBean bean = new SimpleBean();
         beans.put( "bean", bean);
 

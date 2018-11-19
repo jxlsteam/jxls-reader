@@ -46,9 +46,9 @@ public class Employee {
 
     public Employee(String name, int age, double payment, double bonus, Date birthDate) {
         this.name = name;
-        this.age = new Integer(age);
-        this.payment = new Double(payment);
-        this.bonus = new Double(bonus);
+        this.age = age;
+        this.payment = payment;
+        this.bonus = bonus;
         this.birthDate = birthDate;
     }
 
@@ -60,9 +60,9 @@ public class Employee {
 
     public Employee(String name, int age, double payment, double bonus) {
         this.name = name;
-        this.age = new Integer(age);
-        this.payment = new Double(payment);
-        this.bonus = new Double(bonus);
+        this.age = age;
+        this.payment = payment;
+        this.bonus = bonus;
     }
 
     public String getName() {

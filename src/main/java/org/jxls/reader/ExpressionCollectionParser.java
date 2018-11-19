@@ -1,21 +1,16 @@
 package org.jxls.reader;
 
-import java.io.StringReader;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.List;
-
 import org.apache.commons.jexl2.Expression;
 import org.apache.commons.jexl2.JexlContext;
 import org.apache.commons.jexl2.JexlEngine;
-import org.apache.commons.jexl2.parser.ASTIdentifier;
-import org.apache.commons.jexl2.parser.ASTReference;
-import org.apache.commons.jexl2.parser.Node;
-import org.apache.commons.jexl2.parser.Parser;
-import org.apache.commons.jexl2.parser.SimpleNode;
+import org.apache.commons.jexl2.parser.*;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+
+import java.io.StringReader;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 public class ExpressionCollectionParser {
     protected final Log log = LogFactory.getLog(getClass());
@@ -71,8 +66,8 @@ public class ExpressionCollectionParser {
 
         Node node;
 
-        for (Iterator itr = references.iterator(); itr.hasNext();) {
-            node = (Node) itr.next();
+        for (Object reference : references) {
+            node = (Node) reference;
             String expression = findCollectionProperties(jexlContext, node);
             if (expression != null) {
                 if (!expression.endsWith(ExpressionCollectionParser.COLLECTION_REFERENCE_SUFFIX)) {

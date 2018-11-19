@@ -1,21 +1,19 @@
 package org.jxls.reader;
 
+import org.apache.poi.ss.usermodel.Sheet;
+
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-
-import org.apache.commons.beanutils.ConvertUtilsBean;
-import org.apache.poi.ss.usermodel.Sheet;
 
 /**
  * @author Leonid Vysochyn
  */
 public class XLSSheetReaderImpl implements XLSSheetReader {
 
-    List blockReaders = new ArrayList();
-    String sheetName;
-    int sheetIdx = -1;
+    private List<XLSBlockReader> blockReaders = new ArrayList<XLSBlockReader>();
+    private String sheetName;
+    private int sheetIdx = -1;
 
     XLSReadStatus readStatus = new XLSReadStatus();
 
@@ -24,9 +22,8 @@ public class XLSSheetReaderImpl implements XLSSheetReader {
     public XLSReadStatus read(Sheet sheet, Map beans) {
         readStatus.clear();
         XLSRowCursor cursor = new XLSRowCursorImpl( sheetName, sheet );
-        for (int i = 0; i < blockReaders.size(); i++) {
-            XLSBlockReader blockReader = (XLSBlockReader) blockReaders.get(i);
-            readStatus.mergeReadStatus( blockReader.read( cursor, beans ) );
+        for (XLSBlockReader blockReader1 : blockReaders) {
+            readStatus.mergeReadStatus(blockReader1.read(cursor, beans));
             cursor.moveForward();
         }
         return readStatus;
@@ -47,9 +44,8 @@ public class XLSSheetReaderImpl implements XLSSheetReader {
 
     public void setBlockReaders(List blockReaders) {
         this.blockReaders = blockReaders;
-        Iterator it = this.blockReaders.iterator();
-        while( it.hasNext() ){
-        	((XLSBlockReader)it.next()).setConvertUtilsBeanProvider( convertUtilsBeanProvider );
+        for (XLSBlockReader blockReader : this.blockReaders) {
+            blockReader.setConvertUtilsBeanProvider(convertUtilsBeanProvider);
         }
     }
 

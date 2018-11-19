@@ -34,7 +34,7 @@
         <gmavenProviderSelection>2.0</gmavenProviderSelection>
         <groovyVersion>2.0.0</groovyVersion>
         <spockVersion>1.0-groovy-2.4</spockVersion>
-        <poi.version>3.12</poi.version>
+        <poi.version>3.17</poi.version>
         <javaTarget>1.5</javaTarget>
     </properties>
 

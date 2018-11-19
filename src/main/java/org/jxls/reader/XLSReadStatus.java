@@ -8,7 +8,7 @@ import java.util.List;
  * @version 1.0 Jul 30, 2007
  */
 public class XLSReadStatus {
-    List readMessages = new ArrayList();
+    private List<XLSReadMessage> readMessages = new ArrayList<XLSReadMessage>();
 
     boolean statusOK = true;
 
@@ -31,7 +31,7 @@ public class XLSReadStatus {
         }
     }
 
-    void addMessages( List list ){
+    void addMessages( List<XLSReadMessage> list ){
         if( list != null ){
             readMessages.addAll( list );
         }
