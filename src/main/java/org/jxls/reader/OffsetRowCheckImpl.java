@@ -93,6 +93,9 @@ public class OffsetRowCheckImpl implements OffsetRowCheck {
         if( row == null ){
             return true;
         }
+        if (row.getLastCellNum() < 0) {
+            return true;
+        }
         for(short i = row.getFirstCellNum(); i <= row.getLastCellNum(); i++){
             Cell cell = row.getCell( i );
             if( !isCellEmpty( cell ) ){
