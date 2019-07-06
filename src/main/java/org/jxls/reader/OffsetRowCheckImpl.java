@@ -1,10 +1,10 @@
 package org.jxls.reader;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author Leonid Vysochyn
@@ -60,7 +60,7 @@ public class OffsetRowCheckImpl implements OffsetRowCheck {
         }
         Row row = cursor.getSheet().getRow( offset + cursor.getCurrentRowNum() );
         if( row == null ){
-            return cellChecks.isEmpty();
+            return isCellChecksEmpty();
         }
         return isCheckSuccessful( row );
     }
@@ -91,6 +91,9 @@ public class OffsetRowCheckImpl implements OffsetRowCheck {
 
     private boolean isRowEmpty(Row row) {
         if( row == null ){
+            return true;
+        }
+        if (row.getLastCellNum() < 0) {
             return true;
         }
         for(short i = row.getFirstCellNum(); i <= row.getLastCellNum(); i++){
