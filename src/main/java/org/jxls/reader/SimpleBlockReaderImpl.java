@@ -76,12 +76,12 @@ public class SimpleBlockReaderImpl extends BaseBlockReader implements SimpleBloc
         return readStatus;
     }
 
-    private String readCellString(Sheet sheet, int rowNum, short cellNum) {
+    protected String readCellString(Sheet sheet, int rowNum, short cellNum) {
         Cell cell = getCell(sheet, rowNum, cellNum);
         return getCellString(cell);
     }
 
-    private String getCellString(Cell cell) {
+    protected String getCellString(Cell cell) {
         String dataString = null;
         if (cell != null) {
             switch (cell.getCellTypeEnum()) {
@@ -120,7 +120,7 @@ public class SimpleBlockReaderImpl extends BaseBlockReader implements SimpleBloc
         return dataString;
     }
 
-    private String readNumericCell(Cell cell) {
+    protected String readNumericCell(Cell cell) {
         double value;
         String dataString;
         value = cell.getNumericCellValue();
