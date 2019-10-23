@@ -124,8 +124,8 @@ public class SimpleBlockReaderImpl extends BaseBlockReader implements SimpleBloc
         double value;
         String dataString;
         value = cell.getNumericCellValue();
-        if (((int) value) == value) {
-            dataString = Integer.toString((int) value);
+        if (((long) value) == value) {
+            dataString = Long.toString((long) value);
         } else {
             dataString = Double.toString(cell.getNumericCellValue());
         }
