@@ -19,12 +19,13 @@ public class XLSDynamicReaderImpl extends BaseXLSReaderImpl implements XLSReader
     @Override
     protected XLSSheetReader findSheetReader(String sheetName, int sheetNo) {
         XLSSheetReader sheetReader = super.findSheetReader(sheetName, sheetNo);
-        if (sheetReader == null) {
-            //动态匹配
-            for (String vn : dyncSheetReaders.keySet()) {
-                if (sheetName.matches(vn)) {
-                    return dyncSheetReaders.get(vn);
-                }
+        if (sheetReader != null) {
+            return sheetReader;
+        }
+        //动态匹配
+        for (String vn : dyncSheetReaders.keySet()) {
+            if (sheetName.matches(vn)) {
+                return dyncSheetReaders.get(vn);
             }
         }
         return null;
@@ -36,6 +37,7 @@ public class XLSDynamicReaderImpl extends BaseXLSReaderImpl implements XLSReader
             if (((DynamicAble) reader).isDynamic()) {
                 dyncSheetReaders.put(sheetName, reader);
                 reader.setConvertUtilsBeanProvider(getConvertUtilsBeanProvider());
+                return;
             }
         }
         super.addSheetReader(sheetName, reader);
