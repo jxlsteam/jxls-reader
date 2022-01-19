@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <workbook>
+    <worksheet name="Sheet{id}">
+
+    </worksheet>
     <worksheet name="Sheet1">
         <section startRow="0" endRow="6">
             <mapping cell="B1">department.name</mapping>
