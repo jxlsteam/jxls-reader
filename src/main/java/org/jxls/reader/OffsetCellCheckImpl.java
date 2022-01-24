@@ -84,9 +84,9 @@ public class OffsetCellCheckImpl implements OffsetCellCheck {
             c.setTime(cell.getDateCellValue());
             value = c;
         } else if (obj instanceof Boolean) {
-            if (cell.getCellTypeEnum() == CellType.BOOLEAN) {
+            if (cell.getCellType() == CellType.BOOLEAN) {
                 value = (cell.getBooleanCellValue()) ? Boolean.TRUE : Boolean.FALSE;
-            } else if (cell.getCellTypeEnum() == CellType.STRING) {
+            } else if (cell.getCellType() == CellType.STRING) {
                 value = Boolean.valueOf(cell.getRichStringCellValue().getString());
             } else {
                 value = Boolean.FALSE;
@@ -97,7 +97,7 @@ public class OffsetCellCheckImpl implements OffsetCellCheck {
 
     private String readStringValue(Cell cell) {
         String value = null;
-        switch (cell.getCellTypeEnum()) {
+        switch (cell.getCellType()) {
             case STRING:
                 value = cell.getRichStringCellValue().getString().trim();
                 break;
